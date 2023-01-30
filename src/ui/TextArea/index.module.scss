@@ -1,0 +1,21 @@
+@import "../../styles/colors.module.scss";
+
+.textarea {
+  color: $gray;
+  padding: 16px;
+  font-size: 15px;
+  border-radius: 12px;
+  border: 1px solid $line;
+  background-color: $white;
+  outline: none;
+  width: 100%;
+  box-shadow: 0px 2px 3px 0px rgba(129, 129, 182, 0.12);
+
+  &:hover, &:focus {
+    border: 1px solid $gray
+  }
+
+  &::placeholder {
+    color: $gray
+  }
+}
