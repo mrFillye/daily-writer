@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from 'react'
 import styles from './index.module.scss'
 
-type ButtonProps = {
+interface IButtonProps {
   onClick?: () => void
   type?: 'submit' | 'button'
   form?: string
@@ -12,7 +12,7 @@ export const Button = ({
   onClick,
   type,
   form,
-}: PropsWithChildren<ButtonProps>) => (
+}: PropsWithChildren<IButtonProps>) => (
   <button className={styles.button} type={type} form={form} onClick={onClick}>
     {children}
   </button>
