@@ -1,7 +1,8 @@
+import cn from 'classnames'
 import React, { ChangeEvent, HTMLInputTypeAttribute } from 'react'
 import styles from './index.module.scss'
 
-type InputProps = {
+interface InputProps {
   name: string
   value: string
   onChange: (evt: ChangeEvent<HTMLInputElement>) => void
@@ -9,6 +10,7 @@ type InputProps = {
   error?: boolean
   type?: HTMLInputTypeAttribute
   label?: string
+  className?: string
 }
 
 export const Input = ({
@@ -19,25 +21,26 @@ export const Input = ({
   error,
   type = 'text',
   label,
+  className,
 }: InputProps) => {
   return (
-    <div>
+    <>
       {label && (
         <label htmlFor={name} className={styles.label}>
           {label}
         </label>
       )}
-      <div className={styles.inputContainer}>
+      <div className={cn(styles.inputContainer, className)}>
         <input
-          className={styles.input}
           name={name}
           value={value}
+          className={styles.input}
           onChange={onChange}
           placeholder={placeholder}
           type={type}
         />
         {error && <div className={styles.error}>Error</div>}
       </div>
-    </div>
+    </>
   )
 }

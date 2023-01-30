@@ -1,59 +1,38 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { FormikConfig, useFormik } from 'formik'
+import React from 'react'
+import { useFormik } from 'formik'
 import { Button } from '../Button'
 import { Input } from '../Input'
 import { TextArea } from '../TextArea'
 import styles from './index.module.scss'
 import { Card } from '../Card'
-import { getFromLocalStorage, setToLocalStorage } from '@/utils/global'
+import { FormValues } from '@/pages'
 
-type FormValues = {
-  label: string
-  description: string
-}
-
-export type Note = {
+export interface INote {
   id: number
   label: string
   description: string
 }
 
-export const Form = () => {
-  const [formValues, setFormValues] = useState<Note[]>([])
+export interface IFormProps {
+  onSubmit: (values: FormValues) => void | Promise<any>
+}
 
+export const Form = ({ onSubmit }: IFormProps) => {
   const initialValues = {
     label: '',
     description: '',
   }
 
-  useEffect(() => {
-    const notes = getFromLocalStorage('notes')
-    notes && setFormValues(notes)
-  }, [setFormValues])
+  const handleFormSubmit = (values: FormValues) => {
+    onSubmit(values)
+    resetForm()
+  }
 
-  const handleSubmitForm = useCallback<FormikConfig<FormValues>['onSubmit']>(
-    (values: FormValues) => {
-      setFormValues((prev) => [
-        ...prev,
-        { id: formValues.length + 1, ...values },
-      ])
-    },
-
-    [formValues.length]
-  )
-
-  const { resetForm, handleChange, values, handleSubmit } =
+  const { handleChange, values, handleSubmit, resetForm } =
     useFormik<FormValues>({
       initialValues,
-      onSubmit: handleSubmitForm,
+      onSubmit: handleFormSubmit,
     })
-
-  useEffect(() => {
-    if (formValues.length > 0) {
-      setToLocalStorage<Note[]>('notes', formValues)
-      resetForm()
-    }
-  }, [formValues, formValues.length, resetForm])
 
   return (
     <>

@@ -1,6 +1,14 @@
 import React, { PropsWithChildren } from 'react'
+import cn from 'classnames'
 import styles from './index.module.scss'
 
-export const Card = ({ children }: PropsWithChildren) => {
-  return <div className={styles.card}>{children}</div>
+interface ICardProps {
+  className?: string
+}
+
+export const Card = ({
+  children,
+  className,
+}: PropsWithChildren<ICardProps>) => {
+  return <div className={cn(styles.card, className)}>{children}</div>
 }
