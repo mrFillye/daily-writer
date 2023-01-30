@@ -17,8 +17,13 @@ export const NoteList = ({ notes }: NoteListProps) => {
         <SearchInput />
       </div>
       <div className={styles.noteWrapper}>
-        {notes.map(({ id, label, description }) => (
-          <NoteCard key={id} label={label} description={description} />
+        {notes.map(({ id, label, description, createdAt }) => (
+          <NoteCard
+            key={id}
+            label={label}
+            description={description}
+            createdAt={createdAt}
+          />
         ))}
         {notes.length < 1 && (
           <Card>

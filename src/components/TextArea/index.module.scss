@@ -19,3 +19,20 @@
     color: $gray
   }
 }
+
+.textareaError {
+  color: $gray;
+  padding: 16px;
+  font-size: 15px;
+  border-radius: 12px;
+  border: 1px solid $red;
+  background-color: $white;
+  outline: none;
+  width: 100%;
+}
+
+.error {
+  font-size: 12px;
+  margin: 5px 0px 0px 5px;
+  color: $red
+}

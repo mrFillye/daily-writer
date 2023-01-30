@@ -6,6 +6,7 @@ import { TextArea } from '../TextArea'
 import styles from './index.module.scss'
 import { Card } from '../Card'
 import { FormValues } from '@/pages'
+import { validationSchema } from './validationSchema'
 
 export interface INote {
   id: number
@@ -28,9 +29,10 @@ export const Form = ({ onSubmit }: IFormProps) => {
     resetForm()
   }
 
-  const { handleChange, values, handleSubmit, resetForm } =
+  const { handleChange, values, handleSubmit, errors, resetForm } =
     useFormik<FormValues>({
       initialValues,
+      validationSchema,
       onSubmit: handleFormSubmit,
     })
 
@@ -43,12 +45,14 @@ export const Form = ({ onSubmit }: IFormProps) => {
             name="label"
             value={values.label}
             onChange={handleChange}
+            error={errors.label}
             placeholder="Enter note topic"
             label="Note topic"
           />
           <TextArea
             name="description"
             value={values.description}
+            error={errors.description}
             onChange={handleChange}
             placeholder="Enter your note description"
           />
