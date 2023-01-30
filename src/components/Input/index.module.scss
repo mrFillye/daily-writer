@@ -3,6 +3,8 @@
 
 .label {
   font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
 }
 
 .inputContainer {
@@ -27,7 +29,7 @@
     width: 100%;
     outline: none;
     border: none;
-    margin: 12px 0;
+    padding: 12px 0;
   
     &::placeholder {
       color: $gray;

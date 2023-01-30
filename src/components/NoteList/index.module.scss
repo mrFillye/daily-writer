@@ -1,0 +1,28 @@
+@import "../../styles/colors.module.scss";
+
+.wrapper {
+  margin-top: 32px;
+
+  .noteWrapper {
+    display: flex;
+    flex-direction: column;
+    gap:24px;
+    margin-top:24px;
+  }
+    
+  .title {
+    font-size: 22px;
+    font-weight: 800;
+  }
+  
+  .emptyTitle {
+    text-align: center;
+    color: $gray;
+  }
+}
+
+  
+  
+  
+  
+  

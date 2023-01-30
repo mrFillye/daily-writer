@@ -21,8 +21,12 @@ export const Input = ({
   label,
 }: InputProps) => {
   return (
-    <>
-      {label && <label className={styles.label}>{label}</label>}
+    <div>
+      {label && (
+        <label htmlFor={name} className={styles.label}>
+          {label}
+        </label>
+      )}
       <div className={styles.inputContainer}>
         <input
           className={styles.input}
@@ -34,6 +38,6 @@ export const Input = ({
         />
         {error && <div className={styles.error}>Error</div>}
       </div>
-    </>
+    </div>
   )
 }
