@@ -1,3 +1,4 @@
+import { Card } from '@/components/Card'
 import { Form } from '@/components/Form'
 import { Layout } from '@/components/Layout'
 
