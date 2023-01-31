@@ -9,6 +9,7 @@ export type TextareaProps = {
   onChange: (evt: React.ChangeEvent<HTMLTextAreaElement>) => void
   error?: string
   maxLength?: number
+  className?: string
 }
 
 export const TextArea = ({
@@ -18,9 +19,10 @@ export const TextArea = ({
   onChange,
   error,
   maxLength,
+  className,
 }: TextareaProps) => {
   return (
-    <div>
+    <div className={className}>
       <textarea
         value={value}
         name={name}

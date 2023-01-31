@@ -13,4 +13,27 @@
   background-color: $line;
 }
 
+.description {
+  margin-bottom: 24px;
+}
+
+.addComment {
+  color: $gray;
+  font-size:12px;
+  cursor: pointer;
+}
+
+.textarea {
+  margin: 12px 0px;
+}
+
+.button {
+  max-width: 150px;
+  width: 100%;
+  font-size: 12px;
+
+}
+
+
+
 

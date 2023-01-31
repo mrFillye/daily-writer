@@ -20,6 +20,7 @@ export const NoteList = ({ notes }: NoteListProps) => {
         {notes.map(({ id, label, description, createdAt }) => (
           <NoteCard
             key={id}
+            id={id}
             label={label}
             description={description}
             createdAt={createdAt}
