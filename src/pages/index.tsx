@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import { Form } from '@/components/Form'
-import { Layout } from '@/components/Layout'
 import { NoteList } from '@/components/NoteList'
-import { Note } from '@/types'
-import { getFromLocalStorage, setToLocalStorage } from '@/utils/global'
+import { INote } from '@/types'
 import { GlobalContext } from '@/context'
 import { useDebounce } from '@/hooks/useDebounce'
+import { Breadcrumbs } from '@/components/Breadcrumbs'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 
 export interface FormValues {
   label: string
@@ -14,14 +14,16 @@ export interface FormValues {
 }
 
 export default function Home() {
-  const [notes, setNotes] = useState<Note[]>([])
+  const [notes, setNotes] = useState<INote[]>([])
   const { value } = useContext(GlobalContext)
 
   const debouncedValue = useDebounce(value)
 
+  const [storageValue, setStorageValue] = useLocalStorage<INote>('notes')
+
   const handleSubmit = (values: FormValues) => {
     const date = new Date()
-    const createdAt = dayjs(date).format('DD/MM/YYYY')
+    const createdAt = dayjs(date).format('DD.MM.YYYY')
 
     setNotes((prev) => [
       { id: notes.length + 1, createdAt, ...values },
@@ -30,22 +32,29 @@ export default function Home() {
   }
 
   useEffect(() => {
-    notes.length && setToLocalStorage('notes', notes)
-  }, [notes])
+    notes.length && setStorageValue(notes)
+  }, [notes, setStorageValue])
 
   useEffect(() => {
-    const storageNotes = getFromLocalStorage('notes')
-    storageNotes && setNotes(storageNotes)
-  }, [])
+    storageValue && setNotes(storageValue)
+  }, [storageValue])
 
   const searchNotes = notes.filter(({ label }) =>
     label.includes(debouncedValue)
   )
 
+  const breadcrumbs = [
+    {
+      label: 'Home',
+      url: '/',
+    },
+  ]
+
   return (
-    <Layout>
+    <>
+      <Breadcrumbs breadcrumbs={breadcrumbs} />
       <Form onSubmit={handleSubmit} />
       <NoteList notes={searchNotes} />
-    </Layout>
+    </>
   )
 }
