@@ -1,4 +1,4 @@
-export type Note = {
+export interface INote {
   id: number
   label: string
   description: string

@@ -1,9 +1,16 @@
 @import "../../styles/colors.module.scss";
 
+.date {
+  color: $gray;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
 
 .label {
   font-size: 18px;
   font-weight: 800;
+  text-decoration: none;
+  color: $black
 }
 
 .line {

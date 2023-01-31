@@ -8,12 +8,6 @@ import { Card } from '../Card'
 import { FormValues } from '@/pages'
 import { validationSchema } from './validationSchema'
 
-export interface INote {
-  id: number
-  label: string
-  description: string
-}
-
 export interface IFormProps {
   onSubmit: (values: FormValues) => void | Promise<any>
 }

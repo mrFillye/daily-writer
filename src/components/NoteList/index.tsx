@@ -1,4 +1,4 @@
-import { Note } from '@/types'
+import { INote } from '@/types'
 import React from 'react'
 import { Card } from '../Card'
 import { NoteCard } from '../NoteCard'
@@ -6,7 +6,7 @@ import { SearchInput } from '../SearchInput'
 import styles from './index.module.scss'
 
 export interface NoteListProps {
-  notes: Note[]
+  notes: INote[]
 }
 
 export const NoteList = ({ notes }: NoteListProps) => {
@@ -14,12 +14,13 @@ export const NoteList = ({ notes }: NoteListProps) => {
     <div className={styles.wrapper}>
       <div className={styles.titleWrapper}>
         <p className={styles.title}>Your Note List</p>
-        <SearchInput />
+        {notes.length > 0 && <SearchInput />}
       </div>
       <div className={styles.noteWrapper}>
         {notes.map(({ id, label, description, createdAt }) => (
           <NoteCard
             key={id}
+            id={id}
             label={label}
             description={description}
             createdAt={createdAt}

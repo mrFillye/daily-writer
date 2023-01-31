@@ -1,0 +1,45 @@
+@import "../../styles/colors.module.scss";
+
+.labelContainer {
+  display: flex;
+  align-items: flex-end;
+  gap:24px;
+
+  .label {
+    font-size: 24px;
+    font-weight: 800;
+  }
+
+  .date {
+    font-size: 14px;
+    color: $gray;
+  }
+}
+
+
+.card {
+  margin: 12px 0px 24px 0px;
+}
+
+.button {
+  margin: 12px 0px;
+}
+
+.commentsTitle {
+  font-size:18px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.comments {
+  margin:24px 0px;
+
+  .emptyTitle {
+    color: $gray;
+    text-align: center;
+  }
+}
+
+.card {
+  margin:12px 0px;
+}
