@@ -4,9 +4,22 @@ import React from 'react'
 import { Card } from '../Card'
 import styles from './index.module.scss'
 
-export const NoteCard = ({ id, label, description, createdAt }: INote) => {
+interface INoteCard extends Omit<INote, 'comment'> {
+  onRemove: (noteId: number) => void
+}
+
+export const NoteCard = ({
+  id,
+  label,
+  description,
+  createdAt,
+  onRemove,
+}: INoteCard) => {
   return (
-    <Card>
+    <Card className={styles.card}>
+      <div className={styles.removeAction} onClick={() => onRemove(id)}>
+        &#10006;
+      </div>
       <div className={styles.date}>{createdAt}</div>
       <Link href={`note/${id}`} className={styles.label}>
         {label}

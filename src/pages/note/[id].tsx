@@ -1,50 +1,54 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Card } from '@/components/Card'
-import { INote } from '@/types'
+import { IComment, INote } from '@/types'
 import styles from './index.module.scss'
 import { TextArea } from '@/components/TextArea'
 import { Button } from '@/components/Button'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { useFormik } from 'formik'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
-import { validationSchema } from './validationSchema'
-
-interface IFormValue {
-  comment: string
-}
-
-interface IComment {
-  id: number
-  noteId: number
-  comment: string
-}
+import {
+  validationCommentSchema,
+  validationDescriptionSchema,
+} from './validationSchema'
 
 const Note = () => {
-  const [currentNote, setCurrentNote] = useState<INote | null>(null)
-  const [comments, setComment] = useState<IComment[]>([])
+  const [currentNote, setCurrentNote] = useState<INote>()
+  const [comments, setComments] = useState<IComment[]>([])
+  const [description, setDescription] = useState<string>('')
+  const [isEdit, setIsEdit] = useState<boolean>(false)
+
   const { query } = useRouter()
 
-  const [storageValue, setStorageValue] = useLocalStorage<IComment>('comments')
-  const [storageNote] = useLocalStorage<INote>('notes')
+  const [storageNote, setStorageNote] = useLocalStorage<INote[]>('notes', [])
 
   useEffect(() => {
     const foundNote = storageNote?.find(({ id }) => Number(query.id) === id)
 
-    foundNote && setCurrentNote(foundNote)
+    if (foundNote) {
+      setCurrentNote(foundNote)
+      setDescription(foundNote.description)
+    }
+
+    if (foundNote && foundNote?.comment.length > 0) {
+      setComments(foundNote.comment)
+    }
   }, [query.id, storageNote])
 
   useEffect(() => {
-    comments.length && setStorageValue(comments)
-  }, [comments, setStorageValue])
+    if (comments.length) {
+      setStorageNote((prev) =>
+        prev.map((item) => ({ ...item, comment: comments }))
+      )
+    }
 
-  useEffect(() => {
-    const currentNoteComments = storageValue.filter(
-      ({ noteId }: IComment) => noteId == currentNote?.id
-    )
-
-    currentNoteComments && setComment(currentNoteComments)
-  }, [currentNote?.id])
+    if (description.length) {
+      setStorageNote((prev) =>
+        prev.map((item) => ({ ...item, ...(description && { description }) }))
+      )
+    }
+  }, [comments, description, setStorageNote])
 
   const breadcrumbs = [
     {
@@ -57,40 +61,96 @@ const Note = () => {
     },
   ]
 
-  const initialValues = {
+  const handleToggleEdit = () => setIsEdit((prev) => !prev)
+
+  const initialCommentValue = {
     comment: '',
   }
 
-  const handleFormSubmit = (value: IFormValue) => {
-    setComment((prev) => [
-      { id: comments.length + 1, noteId: Number(currentNote?.id), ...value },
-      ...prev,
-    ])
+  const initialDescriptionValue = {
+    description: '',
+  }
+
+  const handleAddComment = ({ comment }: { comment: string }) => {
+    comment &&
+      setComments(
+        (prev) => [{ id: comments.length + 1, comment }, ...prev] as IComment[]
+      )
 
     resetForm()
   }
 
-  const { values, handleSubmit, handleChange, resetForm, errors } =
-    useFormik<IFormValue>({
-      initialValues,
-      validationSchema,
-      onSubmit: handleFormSubmit,
-    })
+  const handleUpdateDescription = ({
+    description,
+  }: {
+    description: string
+  }) => {
+    description && setDescription(description)
+    resetDescriptionField()
+    handleToggleEdit()
+  }
+
+  const { values, handleSubmit, handleChange, resetForm, errors } = useFormik<{
+    comment: string
+  }>({
+    initialValues: initialCommentValue,
+    validationSchema: validationCommentSchema,
+    onSubmit: handleAddComment,
+  })
+
+  const {
+    values: descriptionField,
+    errors: descriptionError,
+    handleSubmit: handleUpdate,
+    handleChange: handleDescriptionChange,
+    resetForm: resetDescriptionField,
+  } = useFormik<{ description: string }>({
+    initialValues: initialDescriptionValue,
+    validationSchema: validationDescriptionSchema,
+    onSubmit: handleUpdateDescription,
+  })
 
   return (
     <>
       <Breadcrumbs breadcrumbs={breadcrumbs} />
       <div className={styles.labelContainer}>
         <div className={styles.label}>{currentNote?.label}</div>
-        <div className={styles.dateFI}>{currentNote?.createdAt}</div>
+        <div className={styles.date}>{currentNote?.createdAt}</div>
       </div>
-      <Card className={styles.card}>{currentNote?.description}</Card>
+      <Card className={styles.card}>
+        {!isEdit ? (
+          <>
+            <p>{currentNote?.description}</p>
+            <div className={styles.line}></div>
+            <div className={styles.editToggle} onClick={handleToggleEdit}>
+              Edit description
+            </div>
+          </>
+        ) : (
+          <form onSubmit={handleUpdate}>
+            <TextArea
+              name="description"
+              value={descriptionField?.description}
+              error={descriptionError?.description}
+              onChange={handleDescriptionChange}
+            />
+            <div className={styles.buttonWrapper}>
+              <Button className={styles.editButton} type="submit">
+                Edit
+              </Button>
+              <div onClick={handleToggleEdit} className={styles.cancel}>
+                Cancel
+              </div>
+            </div>
+          </form>
+        )}
+      </Card>
       <div className={styles.commentsTitle}>Comments</div>
       <Card>
         <form onSubmit={handleSubmit}>
           <TextArea
             name="comment"
-            value={values.comment}
+            value={values.comment || ''}
             onChange={handleChange}
             error={errors.comment}
             placeholder="Add your comment"
@@ -102,18 +162,15 @@ const Note = () => {
       </Card>
       <div className={styles.comments}>
         {comments.length > 0 ? (
-          comments.map(
-            ({ id, noteId, comment }) =>
-              noteId === currentNote?.id && (
-                <Card key={id} className={styles.card}>
-                  <div>{comment}</div>
-                </Card>
-              )
-          )
+          comments.map(({ id, comment }) => (
+            <Card key={id} className={styles.card}>
+              <div>{comment}</div>
+            </Card>
+          ))
         ) : (
           <Card>
             <div className={styles.emptyTitle}>
-              There are no comments for this post.
+              You have no comments for this note
             </div>
           </Card>
         )}

@@ -32,7 +32,8 @@ export const Input = ({
       )}
       <div
         className={cn(
-          error ? styles.inputContainerError : styles.inputContainer
+          styles.inputContainer,
+          error && styles.inputContainerError
         )}
       >
         <input

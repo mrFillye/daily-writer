@@ -19,7 +19,41 @@
 
 .card {
   margin: 12px 0px 24px 0px;
+  
+  .line {
+    width: 100%;
+    height: 1px;
+    margin: 10px 0px;
+    background-color: $line;
+  }
+  
+  .editToggle {
+    font-size: 15px;
+    padding:12px;
+    color: $gray;
+    cursor: pointer
+  }
+  
+  .buttonWrapper {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    margin-top:12px;
+  
+    .editButton {
+      max-width: 150px;
+      width: 100%;
+      padding:12px
+    }
+  
+    .cancel {
+      color: $gray;
+      cursor: pointer;
+    }
+  }
 }
+
+
 
 .button {
   margin: 12px 0px;
@@ -40,6 +74,3 @@
   }
 }
 
-.card {
-  margin:12px 0px;
-}
