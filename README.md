@@ -25,6 +25,8 @@ Navigating between pages with breadcrumbs component
 
 ![Снимок экрана 2023-02-02 в 16 41 49](https://user-images.githubusercontent.com/58518377/216341031-a3f7f803-1c7c-443c-b758-05a0c69c5b1f.png)
 
+P.S Прочитай коментарии которые я оставил в index.tsx
+
 
 
 
