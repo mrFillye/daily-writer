@@ -19,25 +19,25 @@ export default function Home() {
 
   const debouncedValue = useDebounce(value)
 
-  const [storageValue, setStorageValue] = useLocalStorage<INote>('notes')
+  const [storageNote, setStorageNote] = useLocalStorage<INote[]>('notes', [])
 
   const handleSubmit = (values: FormValues) => {
     const date = new Date()
     const createdAt = dayjs(date).format('DD.MM.YYYY')
 
     setNotes((prev) => [
-      { id: notes.length + 1, createdAt, ...values },
+      { id: notes.length + 1, comment: [], createdAt, ...values },
       ...prev,
     ])
   }
 
   useEffect(() => {
-    notes.length && setStorageValue(notes)
-  }, [notes, setStorageValue])
+    notes.length > 0 && setStorageNote(notes)
+  }, [notes, setStorageNote])
 
   useEffect(() => {
-    storageValue && setNotes(storageValue)
-  }, [storageValue])
+    storageNote.length > 0 && setNotes(storageNote)
+  }, [storageNote])
 
   const searchNotes = notes.filter(({ label }) =>
     label.includes(debouncedValue)
@@ -54,7 +54,7 @@ export default function Home() {
     <>
       <Breadcrumbs breadcrumbs={breadcrumbs} />
       <Form onSubmit={handleSubmit} />
-      <NoteList notes={searchNotes} />
+      <NoteList notes={searchNotes} setNotes={setNotes} />
     </>
   )
 }

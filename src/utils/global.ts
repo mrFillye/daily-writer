@@ -1,9 +1,12 @@
-export const getFromLocalStorage = (key: string) => {
+export const getFromLocalStorage = <T extends unknown>(
+  key: string,
+  defaultValue?: T
+) => {
   const value = localStorage.getItem(key)
-  if (value && value !== undefined) return JSON.parse(value)
+  if (value) return JSON.parse(value) || defaultValue
 }
 
-export const setToLocalStorage = <T extends {}>(key: string, value: T) => {
+export const setToLocalStorage = <T extends unknown>(key: string, value: T) => {
   localStorage.setItem(key, JSON.stringify(value))
 }
 
