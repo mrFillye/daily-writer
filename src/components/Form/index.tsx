@@ -41,7 +41,6 @@ export const Form = ({ onSubmit }: IFormProps) => {
             onChange={handleChange}
             error={errors.label}
             placeholder="Enter note topic"
-            label="Note topic"
           />
           <TextArea
             name="description"

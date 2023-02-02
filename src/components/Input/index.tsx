@@ -9,7 +9,6 @@ interface InputProps {
   placeholder?: string
   error?: string
   type?: HTMLInputTypeAttribute
-  label?: string
   className?: string
 }
 
@@ -20,16 +19,11 @@ export const Input = ({
   placeholder,
   error,
   type = 'text',
-  label,
+
   className,
 }: InputProps) => {
   return (
     <div className={cn(className)}>
-      {label && (
-        <label htmlFor={name} className={styles.label}>
-          {label}
-        </label>
-      )}
       <div
         className={cn(
           styles.inputContainer,
