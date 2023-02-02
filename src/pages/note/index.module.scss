@@ -1,4 +1,4 @@
-@import "../../styles/colors.module.scss";
+@import "../../styles/colors.scss";
 
 .labelContainer {
   display: flex;
@@ -19,6 +19,10 @@
 
 .card {
   margin: 12px 0px 24px 0px;
+
+  .description {
+    overflow-wrap: break-word;
+  }
   
   .line {
     width: 100%;
@@ -67,6 +71,10 @@
 
 .comments {
   margin:24px 0px;
+
+  .comment {
+    overflow-wrap: break-word;
+  }
 
   .emptyTitle {
     color: $gray;

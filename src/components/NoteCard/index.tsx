@@ -25,7 +25,7 @@ export const NoteCard = ({
         {label}
       </Link>
       <div className={styles.line}></div>
-      <div>{description}</div>
+      <p className={styles.description}>{description}</p>
     </Card>
   )
 }

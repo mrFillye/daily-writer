@@ -1,0 +1,12 @@
+
+$media:  screen;
+
+$mobile: 595px;
+$tablet: 786px;
+$laptop: 1024px;
+
+:export {
+  mobile: $mobile;
+  tablet: $tablet;
+  laptop: $laptop;
+}
