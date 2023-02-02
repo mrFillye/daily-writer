@@ -120,7 +120,7 @@ const Note = () => {
       <Card className={styles.card}>
         {!isEdit ? (
           <>
-            <p>{currentNote?.description}</p>
+            <p className={styles.description}>{currentNote?.description}</p>
             <div className={styles.line}></div>
             <div className={styles.editToggle} onClick={handleToggleEdit}>
               Edit description
@@ -164,7 +164,7 @@ const Note = () => {
         {comments.length > 0 ? (
           comments.map(({ id, comment }) => (
             <Card key={id} className={styles.card}>
-              <div>{comment}</div>
+              <div className={styles.comment}>{comment}</div>
             </Card>
           ))
         ) : (

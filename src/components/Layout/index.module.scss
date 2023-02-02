@@ -1,7 +1,22 @@
-.wrapper {
+ 
+ @import  "../../styles/media.scss";
+
+ .wrapper {
   max-width: 1440px;
   width: 100%;
   padding: 24px 150px;
   margin: 0 auto;
   min-height: 100vh;
+
+  @media screen and (max-width: $laptop) {
+    padding: 24px 100px;
+  }
+
+  @media screen and (max-width: $tablet) {
+    padding: 24px 80px;
+  }
+
+  @media screen and (max-width: $mobile) {
+    padding: 24px;
+  }
 }

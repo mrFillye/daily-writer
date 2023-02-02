@@ -1,6 +1,12 @@
+@import "../../styles/media.scss";
+
 .title {
   font-weight: 800;
   font-size:22px;
+
+  @media screen and (max-width: $tablet) {
+    text-align: center;
+  }
 }
 
 .form {
