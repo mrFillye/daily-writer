@@ -11,7 +11,7 @@ import { useLocalStorage } from '@/hooks/useLocalStorage'
 import {
   validationCommentSchema,
   validationDescriptionSchema,
-} from './validationSchema'
+} from '@/validation/note'
 
 const Note = () => {
   const [currentNote, setCurrentNote] = useState<INote>()
